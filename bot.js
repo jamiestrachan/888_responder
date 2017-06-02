@@ -41,20 +41,22 @@ function tweetEvent(tweet) {
     var match_results = txt.match(/When was the last time ([^;'"=]+) played there\?/i);
     //console.log(match_results);
     if (match_results) {
-      connection.connect();
+      //connection.connect();
 
       connection.query(
-        'SELECT * from Concerts WHERE headliner LIKE "' + match_results[1] + '" ORDER BY date DESC',
+        'SELECT * from Concerts WHERE headliner LIKE "%' + match_results[1] + '%" ORDER BY date DESC',
         function (error, results, fields) {
           if (error) throw error;
           var previous_date = new Date(results[0].date);
+          var formatted_date = previous_date.toDateString();
+          var date_pieces = formatted_date.match(/[A-z]+ ([A-z]+) ([0-9]+) ([0-9]+)/);
           var reply = '.@'+name + ' ';
-          reply += 'The last time ' + match_results[1] + ' played ' + results[0].venue_name + ' was ' + previous_date.toDateString();
+          reply += 'The last time ' + band + ' played here was at ' + results[0].venue_name + ' on ' + date_pieces[1] + " " + date_pieces[2] + ", " + date_pieces[3];
           T.post('statuses/update', { status: reply }, tweeted);
         }
       );
 
-      connection.end();
+      //connection.end();
 
     }
   }
