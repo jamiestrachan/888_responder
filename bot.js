@@ -51,7 +51,7 @@ function tweetEvent(tweet) {
           var formatted_date = previous_date.toDateString();
           var date_pieces = formatted_date.match(/[A-z]+ ([A-z]+) ([0-9]+) ([0-9]+)/);
           var reply = '.@'+name + ' ';
-          reply += 'The last time ' + band + ' played here was at ' + results[0].venue_name + ' on ' + date_pieces[1] + " " + date_pieces[2] + ", " + date_pieces[3];
+          reply += 'The last time ' + match_results[1] + ' played here was at ' + results[0].venue_name + ' on ' + date_pieces[1] + " " + date_pieces[2] + ", " + date_pieces[3];
           T.post('statuses/update', { status: reply }, tweeted);
         }
       );
